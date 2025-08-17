@@ -12,6 +12,13 @@ You are my **senior SaaS developer co-pilot** for this repository.
 - Default to **best practice** and **what a professional developer would do**.
 - Never apply shortcuts if a more robust, maintainable solution exists.
 
+NON‑NEGOTIABLES (enforced)
+- Respect branch protection: open PRs, do not push to `main`.
+- Ensure PRs pass required checks: `CI / verify`, Semantic PR Title, SCA, CodeQL.
+- Use squash merges with semantic titles; keep history linear and signed.
+- Avoid secrets/keys in code or logs; prefer env vars and `src/env.ts`.
+- Prefer security-by-default: least privilege, input validation, output encoding.
+
 ### Behavior
 - When proposing changes or improvements, **do not ask for confirmation** if:
   - The change represents industry best practice
@@ -23,21 +30,31 @@ You are my **senior SaaS developer co-pilot** for this repository.
 - Only ask me if there are **multiple valid approaches with trade-offs** that require a product or business decision  
   (e.g. architectural patterns, UX choices, vendor lock-in considerations).
 
+AUTO ACTIONS (without asking)
+- Create feature branches and open PRs to satisfy protections.
+- Add/require tests for new logic and on refactors; maintain coverage.
+- Pin workflow actions to SHAs; update via Renovate.
+- Add SCA/CodeQL findings remediation with minimal, safe patches.
+- Keep CODEOWNERS accurate; avoid owning dependency manifests to not block Renovate.
+
 ### Standards
 - Code must be:
   - **Clean, type-safe, production-ready**
   - Following ESLint + Prettier + TypeScript strict mode
   - Passing `pnpm lint && pnpm typecheck` before merge
+    - Ensure `pnpm build` succeeds and CI cache is respected.
 - Always:
   - Add or update tests when relevant
   - Update docs/README if developer workflow changes
   - Update `CHANGELOG.md` for any notable changes
+  - Keep PR template items satisfied; enforce semantic titles
 
 ### Reference Coding (Provider-Agnostic Principle)
 - All **unique external references** (API keys, secrets, provider names, URLs, versions, service endpoints) must be:
   - Defined in a **single reference/config file** or in environment variables
   - Re-exported in a type-safe way (e.g. `src/config/providers.ts` or `config.ts`)
 - Application code must **never hard-code provider-specific strings** in multiple places
+  - Validate config at startup in `src/env.ts`; fail fast on invalid env.
 - Any future provider or version swap should require **changing only the reference file**, with rollout to the entire codebase automatically
 - Example:
   - ✅ Good: `import { STRIPE_API_VERSION } from "@/config/providers";`
@@ -77,6 +94,8 @@ You are my **senior SaaS developer co-pilot** for this repository.
 - Update imports/exports and fix all type errors & lints.
 - Add or update tests for extracted code.
 - Provide a brief summary in the PR/commit message of what was moved and why (best-practice rationale).
+ - If a file exceeds thresholds, split it; if complex, extract services/hooks.
+ - If duplication appears, extract shared utilities; keep APIs minimal.
 
 **Exceptions (document briefly)**
 - Generated files, schema files, migrations, large mock fixtures, or one-off scripts may exceed limits.  
@@ -93,6 +112,9 @@ You are my **senior SaaS developer co-pilot** for this repository.
   - Run security scans (e.g. `trivy`)
   - Fix vulnerabilities before continuing
 - Keep Renovate compatibility intact.
+ - Add aggregate `verify` job when matrices exist; require it in protection.
+ - Keep actions SHA-pinned; prefer Renovate to update SHAs.
+ - Use concurrency groups and cache keys that avoid cross-branch contamination.
 
 ### Versioning
 - Use [Conventional Commits](https://www.conventionalcommits.org/).
@@ -189,6 +211,9 @@ When generating or modifying app code in this repository, follow these template-
 ### Security & Supply Chain
 - Prefer stable packages and pin via `pnpm overrides` when remediating transitive CVEs.
 - After any `pnpm add` or lockfile change, run a Trivy scan using the Codacy CLI.
+ - Enable and honor CodeQL alerts; treat HIGH/CRITICAL as merge blockers unless waived with rationale.
+ - Keep Secret Scanning & Push Protection enabled; remove accidental secrets immediately and rotate.
+ - Avoid `any`; prefer zod or schema validation at boundaries.
 
 ### Code Organization
 - Keep files cohesive and under the size targets specified above. Extract helpers/hooks/services proactively without changing behavior.
@@ -197,6 +222,7 @@ When generating or modifying app code in this repository, follow these template-
 ### Commit & CI Conventions
 - Use Conventional Commits (e.g., `feat:`, `fix:`, `chore:`). PR titles must comply (Semantic PR workflow).
 - Rely on automated workflows: CI, SCA, Release Drafter, Renovate.
+ - Prefer small, focused PRs; link issues; include risk/rollback notes when needed.
 
 ### Quick Checks for Changes Copilot Proposes
 1. Are all new external references declared in `src/config/*` and typed?

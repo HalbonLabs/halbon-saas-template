@@ -10,3 +10,6 @@ coverage
 .env*
 .DS_Store
 .vercel
+
+# TypeScript build info
+tsconfig.tsbuildinfo
