@@ -14,7 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Safe build-time defaults (no real secrets needed for your repo)
       NODE_ENV: test
       NEXT_PUBLIC_APP_NAME: "Halbon SaaS Template"
       DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/halbonsaas_ci?schema=public"
@@ -28,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: "pnpm"
+          cache: pnpm
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -38,15 +37,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Ensure Prisma Client exists for typecheck/build
       - name: Generate Prisma Client
-        run: pnpm db:generate
+        run: pnpm prisma generate
 
       - name: Lint
         run: pnpm lint
 
       - name: Type check
-        run: pnpm typecheck
+        run: pnpm tsc --noEmit
 
       - name: Build
         run: pnpm build
