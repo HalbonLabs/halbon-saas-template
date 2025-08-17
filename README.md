@@ -36,7 +36,9 @@ Copy `.env.example` to `.env.local` and set values. Env is validated at runtime 
 - `pnpm build` — production build
 - `pnpm start` — start production server
 - `pnpm lint` — eslint
+- `pnpm lint:strict` — eslint with `--max-warnings=0` (CI-friendly)
 - `pnpm typecheck` — tsc --noEmit
+- `pnpm typecheck:strict` — strictest TS checks via tsconfig.strictest.json
 - `pnpm db:generate` — prisma generate
 - `pnpm db:push` — prisma db push (dev only)
 

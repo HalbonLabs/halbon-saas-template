@@ -7,11 +7,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+  "lint": "eslint .",
+  "lint:strict": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
+  "typecheck:strict": "tsc --noEmit -p tsconfig.strictest.json",
   "prebuild": "prisma generate",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push"
+  "db:push": "prisma db push",
+  "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "5.16.2",
