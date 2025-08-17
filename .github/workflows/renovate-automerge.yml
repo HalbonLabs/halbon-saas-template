@@ -1,0 +1,27 @@
+name: Automation - Renovate Auto-Merge
+
+on:
+  pull_request:
+    types: [opened, reopened, labeled, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: >-
+      github.actor == 'renovate[bot]' || github.actor == 'renovate'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-approve
+        if: contains(github.event.pull_request.labels.*.name, 'automerge')
+        uses: peter-evans/approve-pull-request@a02185775e3fcfa8087f6ef0c3c5d317ba6ab409 # v5.0.2 renovate: datasource=github-releases depName=peter-evans/approve-pull-request
+        with:
+          pull-request-number: ${{ github.event.pull_request.number }}
+          approval-message: 'Auto-approving safe Renovate update.'
+      - name: Enable PR auto-merge (squash)
+        if: contains(github.event.pull_request.labels.*.name, 'automerge')
+        uses: peter-evans/enable-pull-request-automerge@e6b6d10b2e441c503660a5859af8ee5fc2c75d43 # v3.0.0 renovate: datasource=github-releases depName=peter-evans/enable-pull-request-automerge
+        with:
+          merge-method: squash

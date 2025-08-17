@@ -5,7 +5,7 @@
     ":semanticCommits"
   ],
   "labels": [
-    "dependencies"
+  "dependencies"
   ],
   "rangeStrategy": "replace",
   "timezone": "Europe/London",
@@ -28,16 +28,24 @@
         "minor",
         "patch"
       ],
-      "groupName": "npm minor/patch",
-      "automerge": true,
-      "automergeType": "branch"
+  "groupName": "npm minor/patch",
+  "automerge": true,
+  "automergeType": "pr",
+  "labels": ["dependencies", "automerge", "safe-update"],
+  "minimumReleaseAge": "3 days",
+  "rangeStrategy": "replace",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps"
     },
     {
       "matchManagers": ["github-actions"],
       "pinDigests": true,
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "automerge": true,
-      "groupName": "github-actions minor/patch/digest"
+  "automerge": true,
+  "automergeType": "pr",
+  "groupName": "github-actions minor/patch/digest",
+  "labels": ["dependencies", "automerge", "safe-update"],
+  "minimumReleaseAge": "3 days"
     }
   ]
 }
