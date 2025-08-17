@@ -17,13 +17,22 @@ permissions:
 jobs:
   build-dashboard:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - name: Generate majors dashboard issue body
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
+          command -v gh >/dev/null 2>&1 || { echo 'gh not found'; exit 1; }
+          command -v jq >/dev/null 2>&1 || { echo 'jq not found'; exit 1; }
           tmpfile=$(mktemp)
           echo "# Renovate: Majors Review" > "$tmpfile"
           echo >> "$tmpfile"
@@ -33,8 +42,8 @@ jobs:
           echo >> "$tmpfile"
 
           # List open PRs labeled major+dependencies from Renovate
-          prs_json=$(gh pr list --search "label:major label:dependencies author:app/renovate is:open" --limit 200 --json number,title,updatedAt,labels,url,mergeable,autoMergeRequest)
-          count=$(jq length <<<"$prs_json")
+          prs_json=$(gh pr list --repo "$GITHUB_REPOSITORY" --search "label:major label:dependencies author:app/renovate is:open" --limit 200 --json number,title,updatedAt,labels,url,mergeable,autoMergeRequest || echo '[]')
+          count=$(jq 'length' <<<"$prs_json" 2>/dev/null || echo 0)
 
           if [[ "$count" -eq 0 ]]; then
             echo "No open major Renovate PRs right now." >> "$tmpfile"
@@ -49,10 +58,11 @@ jobs:
       - name: Create or update dashboard issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
-          existing=$(gh issue list --search "in:title 'Renovate: Majors Review'" --limit 1 --json number,state | jq -r '.[0].number // empty')
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --search "in:title 'Renovate: Majors Review'" --limit 1 --json number,state 2>/dev/null | jq -r '.[0].number // empty')
           if [[ -n "$existing" ]]; then
             gh issue edit "$existing" \
               --title "Renovate: Majors Review" \
