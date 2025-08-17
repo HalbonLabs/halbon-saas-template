@@ -1,11 +1,17 @@
 # CODEOWNERS
-#
-# Require review from the maintainers team for all changes. This works
-# together with branch protection "Require review from Code Owners".
+# Require review from the maintainers team for code and workflows.
+# Avoid owning dependency manifests so Renovate auto-merge isn't blocked.
 # Update the team handle below to match your org/team.
-*	@HalbonLabs/maintainers
 
-# Recommended tighter ownership examples (uncomment and adjust as needed):
-# .github/workflows/*   @HalbonLabs/maintainers
-# src/env.ts            @HalbonLabs/maintainers
-# prisma/**             @HalbonLabs/maintainers
+# App and source code
+app/**                  @HalbonLabs/maintainers
+src/**                  @HalbonLabs/maintainers
+prisma/**               @HalbonLabs/maintainers
+
+# CI/CD and infra workflows
+.github/workflows/**    @HalbonLabs/maintainers
+
+# Optionally add more critical files below (uncomment as needed)
+# next.config.mjs        @HalbonLabs/maintainers
+# tsconfig*.json         @HalbonLabs/maintainers
+# vercel.json            @HalbonLabs/maintainers
