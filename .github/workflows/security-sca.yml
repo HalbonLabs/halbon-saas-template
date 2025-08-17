@@ -59,15 +59,6 @@ jobs:
         with:
           sarif_file: trivy-deps-lockfile.sarif
           category: trivy-deps-lockfile
-      - name: Scan lockfile (table)
-        uses: aquasecurity/trivy-action@b2933f565dbc598b29947660e66259e3c7bc8561 # v0.20.0 renovate: datasource=github-tags depName=aquasecurity/trivy-action
-        with:
-          scan-type: fs
-          scan-ref: pnpm-lock.yaml
-          format: table
-          severity: HIGH,CRITICAL
-          exit-code: '1'
-          ignore-unfixed: true
       - name: Scan manifest (SARIF)
         uses: aquasecurity/trivy-action@b2933f565dbc598b29947660e66259e3c7bc8561 # v0.20.0 renovate: datasource=github-tags depName=aquasecurity/trivy-action
         with:
@@ -84,6 +75,15 @@ jobs:
         with:
           sarif_file: trivy-deps-manifest.sarif
           category: trivy-deps-manifest
+      - name: Scan lockfile (table)
+        uses: aquasecurity/trivy-action@b2933f565dbc598b29947660e66259e3c7bc8561 # v0.20.0 renovate: datasource=github-tags depName=aquasecurity/trivy-action
+        with:
+          scan-type: fs
+          scan-ref: pnpm-lock.yaml
+          format: table
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+          ignore-unfixed: true
       - name: Scan manifest (table)
         uses: aquasecurity/trivy-action@b2933f565dbc598b29947660e66259e3c7bc8561 # v0.20.0 renovate: datasource=github-tags depName=aquasecurity/trivy-action
         with:
