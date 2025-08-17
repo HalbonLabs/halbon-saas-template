@@ -38,6 +38,19 @@
   "semanticCommitScope": "deps"
     },
     {
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "devDependencies minor/patch",
+      "automerge": true,
+      "automergeType": "pr",
+      "labels": ["dependencies", "automerge", "safe-update", "dev-only"],
+      "minimumReleaseAge": "1 days",
+      "rangeStrategy": "replace",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-dev"
+    },
+    {
       "matchManagers": ["github-actions"],
       "pinDigests": true,
       "matchUpdateTypes": ["minor", "patch", "digest"],
