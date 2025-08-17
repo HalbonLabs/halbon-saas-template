@@ -30,8 +30,6 @@ jobs:
           key: ${{ runner.os }}-trivy-full-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-trivy-full-
-      - name: Install Trivy
-        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
       - name: Run full filesystem scan (SARIF)
         uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
         with:

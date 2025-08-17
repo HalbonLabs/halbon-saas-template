@@ -38,8 +38,6 @@ jobs:
           key: ${{ runner.os }}-trivy-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-trivy-
-      - name: Install Trivy
-        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
       - name: Scan lockfile (SARIF)
         uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
         with:
