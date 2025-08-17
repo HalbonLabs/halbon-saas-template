@@ -14,6 +14,7 @@ A professional, adaptable starter for SaaS projects. Optimized for **Vercel** de
 - **Renovate** bot configured to keep deps fresh
 - **CI** (GitHub Actions): install → lint → typecheck → build
 - **Deploy with Vercel** button
+ - **Automation**: PR-based safe auto-merge, majors dashboard, semantic PR titles
 
 ## Quickstart
 1. **Use this template** → create a new repo.
@@ -70,3 +71,12 @@ trivy fs --scanners vuln --severity HIGH,CRITICAL --exit-code 1 package.json
 - **Renovate**: automated PRs for dependency updates.  
 
 You can trim or extend easily. This repo is intentionally minimal yet production-aimed.
+
+## Branch Protection (Recommended)
+
+Configure in GitHub → Settings → Branches → Branch protection rules for `main`:
+
+- Require status checks to pass: select CI, SCA deps, SCA weekly, Semantic PR Title
+- Require pull request reviews before merging: 1
+- Allow auto-merge: enabled
+- Require linear history: optional but recommended
