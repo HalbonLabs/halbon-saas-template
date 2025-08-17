@@ -14,7 +14,7 @@ function log(level: LogLevel, message: string, fields?: LogFields) {
   const line = JSON.stringify(body);
   if (level === 'error') console.error(line);
   else if (level === 'warn') console.warn(line);
-  else if (typeof process !== 'undefined' && process.stdout) {
+  else if (typeof process !== 'undefined' && typeof process?.stdout?.write === 'function') {
     process.stdout.write(line + '\n');
   }
 }
