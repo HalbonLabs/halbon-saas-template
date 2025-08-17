@@ -46,12 +46,12 @@ Copy `.env.example` to `.env.local` and set values. Env is validated at runtime 
 
 ## Security Scans (SCA)
 
-This template runs two Trivy-based SCA workflows:
+This template runs a consolidated Trivy-based SCA workflow: `.github/workflows/security-sca.yml`
 
-- Dependency-only on PRs/commits that change `package.json` or `pnpm-lock.yaml`: `.github/workflows/sca-deps.yml`
-- Weekly full repository scan (reduced noise, excludes node_modules): `.github/workflows/sca-full-weekly.yml`
+- Dependency-only job on PRs/commits that change `package.json` or `pnpm-lock.yaml`
+- Weekly full repository scan (reduced noise, excludes node_modules)
 
-Both workflows generate and upload SARIF to GitHub Code Scanning. View findings under the repository's "Security" → "Code scanning alerts". The table-mode steps still fail the job on HIGH/CRITICAL issues for fast feedback.
+Both jobs generate and upload SARIF to GitHub Code Scanning. View findings under the repository's "Security" → "Code scanning alerts". The table-mode steps still fail the job on HIGH/CRITICAL issues for fast feedback.
 
 Local quick checks (requires `trivy` installed):
 
