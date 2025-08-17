@@ -1,18 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-  "config:recommended",
-  ":semanticCommits",
-  "helpers:pinGitHubActionDigests"
+    "config:recommended",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
   ],
-  "labels": [
-  "dependencies"
-  ],
+  "labels": ["dependencies"],
   "rangeStrategy": "replace",
   "timezone": "Europe/London",
-  "schedule": [
-    "before 8am on monday"
-  ],
+  "schedule": ["before 8am on monday"],
   "dependencyDashboard": true,
   "prHourlyLimit": 4,
   "prConcurrentLimit": 10,
@@ -36,10 +32,8 @@
       "prPriority": -2
     },
     {
-      "matchPackagePatterns": [
-        "^@types/"
-      ],
-      "groupName": "types"
+      "groupName": "types",
+      "matchPackageNames": ["/^@types//"]
     },
     {
       "matchManagers": ["npm"],
@@ -48,7 +42,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update"],
-  "minimumReleaseAge": "0 days",
+      "minimumReleaseAge": "0 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps"
     },
@@ -59,7 +53,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update"],
-  "minimumReleaseAge": "3 days",
+      "minimumReleaseAge": "3 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps"
     },
@@ -71,7 +65,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update", "dev-only"],
-  "minimumReleaseAge": "0 days",
+      "minimumReleaseAge": "0 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-dev"
     },
@@ -83,7 +77,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update", "dev-only"],
-  "minimumReleaseAge": "1 days",
+      "minimumReleaseAge": "1 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-dev"
     },
@@ -110,29 +104,27 @@
     {
       "groupName": "eslint ecosystem",
       "matchManagers": ["npm"],
-      "matchPackagePatterns": [
-        "^eslint$",
-        "^@typescript-eslint/",
-        "^eslint-",
-        "^eslint-config-",
-        "^eslint-plugin-"
-      ],
       "labels": ["dependencies", "eslint", "grouped"],
-      "prPriority": -1
+      "prPriority": -1,
+      "matchPackageNames": [
+        "/^eslint$/",
+        "/^@typescript-eslint//",
+        "/^eslint-/",
+        "/^eslint-config-/",
+        "/^eslint-plugin-/"
+      ]
     },
     {
       "groupName": "vitest/happy-dom",
       "matchManagers": ["npm"],
-      "matchPackagePatterns": ["^vitest$", "^@vitest/", "^happy-dom$"]
-      ,
-      "labels": ["dependencies", "test", "grouped"]
+      "labels": ["dependencies", "test", "grouped"],
+      "matchPackageNames": ["/^vitest$/", "/^@vitest//", "/^happy-dom$/"]
     },
     {
       "groupName": "prisma toolchain",
       "matchManagers": ["npm"],
-      "matchPackagePatterns": ["^prisma$", "^@prisma/"]
-      ,
-      "labels": ["dependencies", "prisma", "grouped"]
+      "labels": ["dependencies", "prisma", "grouped"],
+      "matchPackageNames": ["/^prisma$/", "/^@prisma//"]
     }
   ]
 }
