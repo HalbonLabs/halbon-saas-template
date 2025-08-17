@@ -18,7 +18,7 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           // HSTS is only meaningful over HTTPS; most hosts (e.g., Vercel) use TLS in prod
           // max-age ~180 days; includeSubDomains & preload are conservative defaults
-          { key: 'Strict-Transport-Security', value: 'max-age=15552000; includeSubDomains' }
+          { key: 'Strict-Transport-Security', value: 'max-age=15552000; includeSubDomains; preload' }
         ]
       }
     ];
