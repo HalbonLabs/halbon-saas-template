@@ -21,7 +21,7 @@ jobs:
       TRIVY_CACHE_DIR: .trivycache
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.6 renovate: datasource=github-releases depName=actions/checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0 renovate: datasource=github-releases depName=actions/checkout
       - name: Cache Trivy DB
         uses: actions/cache@v4 # renovate: datasource=github-releases depName=actions/cache
         with:
@@ -31,9 +31,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-trivy-full-
       - name: Install Trivy
-        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
+        uses: aquasecurity/trivy-action@dc5a429b52fcf669ce959baa2c2dd26090d2a6c4 # 0.32.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
       - name: Run full filesystem scan (SARIF)
-        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
+        uses: aquasecurity/trivy-action@dc5a429b52fcf669ce959baa2c2dd26090d2a6c4 # 0.32.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -56,7 +56,7 @@ jobs:
           sarif_file: trivy-full.sarif
           category: trivy-full
       - name: Run full filesystem scan (table, fail on HIGH+)
-        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
+        uses: aquasecurity/trivy-action@dc5a429b52fcf669ce959baa2c2dd26090d2a6c4 # 0.32.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
         with:
           scan-type: 'fs'
           scan-ref: '.'
