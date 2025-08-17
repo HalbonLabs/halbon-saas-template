@@ -1,63 +1,40 @@
-name: CI
+name: Node.js CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
-
-# Cancel redundant runs on the same PR/branch
-concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      # Safe, build-only defaults so env validation and Next build don’t crash.
-      NEXTAUTH_URL: http://localhost:3000
-      NEXTAUTH_SECRET: dummy_ci_secret_change_me
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/halbonsaas_ci?schema=public
-      NODE_ENV: test
-      CI: true
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Use Node 22 LTS (adjust if your repo uses a .nvmrc/.node-version)
-      - name: Setup Node
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      # Proper pnpm setup + caching
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      # (Optional) If you use a private registry, uncomment and set the URL:
-      # - name: Configure npm registry
-      #   run: |
-      #     npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-      #     npm config set registry https://registry.npmjs.org/
-
-      # Fast, reproducible installs
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      # Ensure Prisma Client exists even if postinstall is skipped
-      - name: Generate Prisma Client
-        run: pnpm prisma generate
+        run: pnpm install
 
       - name: Lint
         run: pnpm lint
 
-      - name: Type check
-        run: pnpm tsc --noEmit
-
       - name: Build
         run: pnpm build
+
+      - name: Test
+        run: pnpm test
+
+      - name: Type Check
+        run: pnpm tsc --noEmit
