@@ -41,6 +41,21 @@ Copy `.env.example` to `.env.local` and set values. Env is validated at runtime 
 - `pnpm typecheck:strict` — strictest TS checks via tsconfig.strictest.json
 - `pnpm db:generate` — prisma generate
 - `pnpm db:push` — prisma db push (dev only)
+- `pnpm test` — run unit tests via Vitest
+
+## Security Scans (SCA)
+
+This template runs two Trivy-based SCA workflows:
+
+- Dependency-only on PRs/commits that change `package.json` or `pnpm-lock.yaml`: `.github/workflows/sca-deps.yml`
+- Weekly full repository scan (reduced noise, excludes node_modules): `.github/workflows/sca-full-weekly.yml`
+
+Local quick checks (requires `trivy` installed):
+
+```powershell
+trivy fs --scanners vuln --severity HIGH,CRITICAL --exit-code 1 pnpm-lock.yaml
+trivy fs --scanners vuln --severity HIGH,CRITICAL --exit-code 1 package.json
+```
 
 ---
 

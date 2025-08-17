@@ -8,6 +8,22 @@ export const EnvSchema = z.object({
   NEXT_PUBLIC_APP_NAME: z.string().min(1).default("Halbon SaaS Template"),
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
 
+  // Database (optional for template)
+  DATABASE_URL: z.preprocess(
+    (val) => {
+      if (typeof val !== "string") return undefined;
+      const s = val.trim();
+      if (s === "") return undefined;
+      try {
+        new URL(s);
+        return s;
+      } catch {
+        return undefined;
+      }
+    },
+    z.string().url().optional()
+  ),
+
   // Payments (example: Stripe)
   PAYMENT_PROVIDER: z.enum(["stripe", "adyen", "braintree", "dummy"]).default("dummy"),
   PAYMENT_API_KEY: z.string().optional(),
@@ -28,6 +44,11 @@ export const EnvSchema = z.object({
   STORAGE_BASE_URL: z.string().url().optional(),
   STORAGE_ACCESS_KEY_ID: z.string().optional(),
   STORAGE_SECRET_ACCESS_KEY: z.string().optional(),
+
+  // Legacy/optional provider-specific keys kept for template compatibility
+  STRIPE_PUBLIC_KEY: z.string().optional(),
+  STRIPE_SECRET_KEY: z.string().optional(),
+  AUTH_SECRET: z.string().optional(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;
