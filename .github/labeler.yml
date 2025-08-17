@@ -1,0 +1,19 @@
+# Auto-label PRs based on changed file paths
+# https://github.com/actions/labeler
+
+ci:
+  - .github/workflows/**
+
+Docs:
+  - '**/*.md'
+
+Test:
+  - '**/*.test.*'
+  - '**/__tests__/**'
+
+Prisma:
+  - 'prisma/**'
+
+Next.js:
+  - 'app/**'
+  - 'src/**'

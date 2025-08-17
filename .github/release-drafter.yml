@@ -1,0 +1,26 @@
+name-template: 'v$RESOLVED_VERSION'
+change-template: '- $TITLE (#$NUMBER) — @$AUTHOR'
+no-changes-template: 'No user-facing changes'
+categories:
+  - title: '🚀 Features'
+    labels: ['feat']
+  - title: '🐛 Fixes'
+    labels: ['fix']
+  - title: '🧰 Maintenance'
+    labels: ['chore', 'ci', 'refactor', 'build']
+  - title: '🧪 Tests'
+    labels: ['test']
+  - title: '📝 Docs'
+    labels: ['docs']
+version-resolver:
+  major:
+    labels: ['major']
+  minor:
+    labels: ['feat']
+  patch:
+    labels: ['fix', 'chore', 'docs', 'refactor', 'test', 'build', 'ci']
+  default: patch
+template: |
+  ## Changes
+
+  $CHANGES
