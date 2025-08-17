@@ -17,6 +17,24 @@
   "prConcurrentLimit": 10,
   "packageRules": [
     {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "npm majors (monthly)",
+      "labels": ["dependencies", "major", "needs-review"],
+      "draftPR": true,
+      "schedule": ["before 8am on monday"],
+      "prPriority": -2
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "github-actions majors (monthly)",
+      "labels": ["dependencies", "major", "needs-review"],
+      "draftPR": true,
+      "schedule": ["before 8am on monday"],
+      "prPriority": -2
+    },
+    {
       "matchPackagePatterns": [
         "^@types/"
       ],
