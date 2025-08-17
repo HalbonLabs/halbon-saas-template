@@ -168,3 +168,40 @@ If vulnerabilities are found:
   - Retry the failed action once after setup
 
 ---
+
+## Copilot – Using This Template to Build Apps
+
+When generating or modifying app code in this repository, follow these template-aware rules so output is cohesive, secure, and CI-green:
+
+### Golden Path (what to import and where)
+- Env/config access: only via `src/env.ts` and `src/config/*`. Do not read `process.env` in application code.
+- Data access: via `src/lib/prisma.ts`. Avoid new Prisma client instances; reuse the singleton.
+- Routes: create API routes under `app/api/<name>/route.ts` and co-locate tests as `<name>/route.test.ts`.
+
+### Provider-Agnostic Principle (enforced)
+- Declare provider names, API versions, base URLs, and keys centrally in `src/config/*`. Application modules must import these values instead of hard-coding strings.
+- If a new provider is added, expose it through `src/config` first, then consume it.
+
+### Lint/Type/Build Discipline
+- Update only the ESLint flat config (`eslint.config.mjs`) for lint rules. Keep `.eslintrc.json` as a detection shim only.
+- Ensure `pnpm lint && pnpm typecheck && pnpm build` pass before proposing changes.
+
+### Security & Supply Chain
+- Prefer stable packages and pin via `pnpm overrides` when remediating transitive CVEs.
+- After any `pnpm add` or lockfile change, run a Trivy scan using the Codacy CLI.
+
+### Code Organization
+- Keep files cohesive and under the size targets specified above. Extract helpers/hooks/services proactively without changing behavior.
+- Co-locate unit tests (`*.test.ts/tsx`) with the code they cover.
+
+### Commit & CI Conventions
+- Use Conventional Commits (e.g., `feat:`, `fix:`, `chore:`). PR titles must comply (Semantic PR workflow).
+- Rely on automated workflows: CI, SCA, Release Drafter, Renovate.
+
+### Quick Checks for Changes Copilot Proposes
+1. Are all new external references declared in `src/config/*` and typed?
+2. Do env reads go through `src/env.ts`?
+3. Do `pnpm lint`, `pnpm typecheck`, and tests pass locally?
+4. Do workflows and docs need small updates (README/CHANGELOG)? If yes, apply them.
+
+If there are multiple equally valid approaches with product trade-offs (e.g., choosing a provider or architecture pattern), ask the user; otherwise apply best practices automatically.

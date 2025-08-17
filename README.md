@@ -16,6 +16,8 @@ A professional, adaptable starter for SaaS projects. Optimized for **Vercel** de
 - **Deploy with Vercel** button
  - **Automation**: PR-based safe auto-merge, majors dashboard, semantic PR titles
 
+• Read the full Template Guide: docs/TEMPLATE-GUIDE.md
+
 ## Quickstart
 1. **Use this template** → create a new repo.
 2. In Vercel: **Import Project** → set env vars (see `.env.example`).
