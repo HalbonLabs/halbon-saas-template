@@ -13,6 +13,8 @@
     "before 8am on monday"
   ],
   "dependencyDashboard": true,
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 10,
   "packageRules": [
     {
       "matchPackagePatterns": [
@@ -21,27 +23,47 @@
       "groupName": "types"
     },
     {
-      "matchManagers": [
-        "npm"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-  "groupName": "npm minor/patch",
-  "automerge": true,
-  "automergeType": "pr",
-  "labels": ["dependencies", "automerge", "safe-update"],
-  "minimumReleaseAge": "3 days",
-  "rangeStrategy": "replace",
-  "semanticCommitType": "chore",
-  "semanticCommitScope": "deps"
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "npm patch",
+      "automerge": true,
+      "automergeType": "pr",
+      "labels": ["dependencies", "automerge", "safe-update"],
+      "minimumReleaseAge": "0 days",
+      "rangeStrategy": "replace",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "npm minor",
+      "automerge": true,
+      "automergeType": "pr",
+      "labels": ["dependencies", "automerge", "safe-update"],
+      "minimumReleaseAge": "3 days",
+      "rangeStrategy": "replace",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
     },
     {
       "matchManagers": ["npm"],
       "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "devDependencies minor/patch",
+      "matchUpdateTypes": ["patch"],
+      "groupName": "devDependencies patch",
+      "automerge": true,
+      "automergeType": "pr",
+      "labels": ["dependencies", "automerge", "safe-update", "dev-only"],
+      "minimumReleaseAge": "0 days",
+      "rangeStrategy": "replace",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps-dev"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "devDependencies minor",
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update", "dev-only"],
@@ -53,12 +75,49 @@
     {
       "matchManagers": ["github-actions"],
       "pinDigests": true,
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-  "automerge": true,
-  "automergeType": "pr",
-  "groupName": "github-actions minor/patch/digest",
-  "labels": ["dependencies", "automerge", "safe-update"],
-  "minimumReleaseAge": "3 days"
+      "matchUpdateTypes": ["digest", "patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "groupName": "github-actions patch/digest",
+      "labels": ["dependencies", "automerge", "safe-update"],
+      "minimumReleaseAge": "0 days"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "matchUpdateTypes": ["minor"],
+      "automerge": true,
+      "automergeType": "pr",
+      "groupName": "github-actions minor",
+      "labels": ["dependencies", "automerge", "safe-update"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "groupName": "eslint ecosystem",
+      "matchManagers": ["npm"],
+      "matchPackagePatterns": [
+        "^eslint$",
+        "^@typescript-eslint/",
+        "^eslint-",
+        "^eslint-config-",
+        "^eslint-plugin-"
+      ],
+      "labels": ["dependencies", "eslint", "grouped"],
+      "prPriority": -1
+    },
+    {
+      "groupName": "vitest/happy-dom",
+      "matchManagers": ["npm"],
+      "matchPackagePatterns": ["^vitest$", "^@vitest/", "^happy-dom$"]
+      ,
+      "labels": ["dependencies", "test", "grouped"]
+    },
+    {
+      "groupName": "prisma toolchain",
+      "matchManagers": ["npm"],
+      "matchPackagePatterns": ["^prisma$", "^@prisma/"]
+      ,
+      "labels": ["dependencies", "prisma", "grouped"]
     }
   ]
 }
