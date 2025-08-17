@@ -1,0 +1,67 @@
+name: Automation - Renovate Majors Dashboard
+
+on:
+  schedule:
+    - cron: '5 8 * * 1' # Mondays at 08:05 UTC
+  workflow_dispatch: {}
+
+concurrency:
+  group: renovate-majors-dashboard
+  cancel-in-progress: true
+
+permissions:
+  issues: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  build-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate majors dashboard issue body
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmpfile=$(mktemp)
+          echo "# Renovate: Majors Review" > "$tmpfile"
+          echo >> "$tmpfile"
+          echo "This issue summarizes all open Renovate PRs for major upgrades that need manual review." >> "$tmpfile"
+          echo >> "$tmpfile"
+          echo "- Updated: $(date -u +'%Y-%m-%d %H:%M UTC')" >> "$tmpfile"
+          echo >> "$tmpfile"
+
+          # List open PRs labeled major+dependencies from Renovate
+          prs_json=$(gh pr list --search "label:major label:dependencies author:app/renovate is:open" --limit 200 --json number,title,updatedAt,labels,url,mergeable,autoMergeRequest)
+          count=$(jq length <<<"$prs_json")
+
+          if [[ "$count" -eq 0 ]]; then
+            echo "No open major Renovate PRs right now." >> "$tmpfile"
+          else
+            echo "Open major Renovate PRs (count: $count):" >> "$tmpfile"
+            echo >> "$tmpfile"
+            echo "$prs_json" | jq -r '.[] | "- PR #\(.number): [\(.title)](\(.url))\n  - Updated: \(.updatedAt)\n  - Labels: \(.labels | map(.name) | join(", "))\n  - Mergeable: \(.mergeable)  AutoMerge: \(.autoMergeRequest != null)\n"' >> "$tmpfile"
+          fi
+
+          mv "$tmpfile" majors.md
+
+      - name: Create or update dashboard issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          existing=$(gh issue list --search "in:title 'Renovate: Majors Review'" --limit 1 --json number,state | jq -r '.[0].number // empty')
+          if [[ -n "$existing" ]]; then
+            gh issue edit "$existing" \
+              --title "Renovate: Majors Review" \
+              --body-file majors.md \
+              --add-label dependencies --add-label major --add-label dashboard \
+              --reopen || true
+          else
+            gh issue create \
+              --title "Renovate: Majors Review" \
+              --body-file majors.md \
+              --label dependencies --label major --label dashboard
+          fi
