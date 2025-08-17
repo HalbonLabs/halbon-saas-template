@@ -18,6 +18,18 @@ A professional, adaptable starter for SaaS projects. Optimized for **Vercel** de
 
 • Read the full Template Guide: docs/TEMPLATE-GUIDE.md
 
+## Getting Started
+
+Prereqs: Node 20+, pnpm 10+
+
+```bash
+pnpm install
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
 ## Quickstart
 1. **Use this template** → create a new repo.
 2. In Vercel: **Import Project** → set env vars (see `.env.example`).
