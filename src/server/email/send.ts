@@ -1,7 +1,7 @@
 // src/server/email/send.ts
 import { getProvider } from "@/config";
 
-export async function sendWelcomeEmail(to: string) {
+export async function sendWelcomeEmail(_to: string) {
   const email = getProvider("email");
 
   switch (email.provider) {

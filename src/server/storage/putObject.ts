@@ -1,7 +1,7 @@
 // src/server/storage/putObject.ts
 import { getProvider } from "@/config";
 
-export async function putObject(key: string, data: Buffer | Uint8Array) {
+export async function putObject(_key: string, _data: Buffer | Uint8Array) {
   const storage = getProvider("storage");
 
   switch (storage.provider) {

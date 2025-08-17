@@ -1,8 +1,13 @@
-{
-  "root": true,
-  "extends": [
-    "next/core-web-vitals"
-  ],
+{{
+
+  "$schema": "https://json.schemastore.org/eslintrc",  "root": true,
+
+  "root": false,  "extends": [
+
+  "extends": ["next/core-web-vitals"]    "next/core-web-vitals"
+
+}  ],
+
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module"
