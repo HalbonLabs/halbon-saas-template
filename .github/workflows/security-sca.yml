@@ -36,7 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.6 renovate: datasource=github-releases depName=actions/checkout
       - name: Cache Trivy DB
-        uses: actions/cache@v4 # renovate: datasource=github-releases depName=actions/cache
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4 renovate: datasource=github-releases depName=actions/cache
         with:
           path: |
             .trivycache
@@ -55,7 +55,7 @@ jobs:
           ignore-unfixed: true
       - name: Upload SARIF (lockfile)
         if: always()
-        uses: github/codeql-action/upload-sarif@v3 # renovate: datasource=github-releases depName=github/codeql-action
+        uses: github/codeql-action/upload-sarif@df559355d593797519d70b90fc8edd5db049e7a2 # v3.29.9 renovate: datasource=github-releases depName=github/codeql-action
         with:
           sarif_file: trivy-deps-lockfile.sarif
           category: trivy-deps-lockfile
@@ -80,7 +80,7 @@ jobs:
           ignore-unfixed: true
       - name: Upload SARIF (manifest)
         if: always()
-        uses: github/codeql-action/upload-sarif@v3 # renovate: datasource=github-releases depName=github/codeql-action
+        uses: github/codeql-action/upload-sarif@df559355d593797519d70b90fc8edd5db049e7a2 # v3.29.9 renovate: datasource=github-releases depName=github/codeql-action
         with:
           sarif_file: trivy-deps-manifest.sarif
           category: trivy-deps-manifest
@@ -105,7 +105,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.6 renovate: datasource=github-releases depName=actions/checkout
       - name: Cache Trivy DB
-        uses: actions/cache@v4 # renovate: datasource=github-releases depName=actions/cache
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4 renovate: datasource=github-releases depName=actions/cache
         with:
           path: |
             .trivycache
@@ -130,7 +130,7 @@ jobs:
             **/.turbo/**
       - name: Upload SARIF
         if: always()
-        uses: github/codeql-action/upload-sarif@v3 # renovate: datasource=github-releases depName=github/codeql-action
+        uses: github/codeql-action/upload-sarif@df559355d593797519d70b90fc8edd5db049e7a2 # v3.29.9 renovate: datasource=github-releases depName=github/codeql-action
         with:
           sarif_file: trivy-full.sarif
           category: trivy-full
