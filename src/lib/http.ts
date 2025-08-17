@@ -20,7 +20,6 @@ export function jsonNotFound(error?: unknown) {
   return new Response(JSON.stringify({ error: error ?? 'Not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
 }
 
-export function jsonServerError(error: unknown) {
 function sanitizeError(error: unknown): { message: string } {
   if (typeof error === 'object' && error !== null) {
     // Try to extract a message property, fallback to generic message
