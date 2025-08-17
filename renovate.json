@@ -28,7 +28,16 @@
         "minor",
         "patch"
       ],
-      "groupName": "npm minor/patch"
+      "groupName": "npm minor/patch",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "automerge": true,
+      "groupName": "github-actions minor/patch/digest"
     }
   ]
 }

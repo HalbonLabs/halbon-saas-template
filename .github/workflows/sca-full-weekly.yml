@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.6 renovate: datasource=github-releases depName=actions/checkout
       - name: Install Trivy
-        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0
+        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
       - name: Run full filesystem scan
-        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0
+        uses: aquasecurity/trivy-action@b49f0bd0f9320edaa1dfc6d0c484b99e5a8cd6e7 # v0.20.0 renovate: datasource=github-releases depName=aquasecurity/trivy-action
         with:
           scan-type: 'fs'
           scan-ref: '.'
