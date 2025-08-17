@@ -141,3 +141,21 @@ jobs:
             ${{ runner.os }}-next-cache-
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+
+  verify:
+    name: verify
+    needs: [lint, typecheck, build]
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Aggregate upstream job results
+        shell: bash
+        run: |
+          set -euo pipefail
+          RESULTS="${{ join(needs.*.result, ',') }}"
+          echo "Upstream results: $RESULTS"
+          if [[ "$RESULTS" == *"failure"* || "$RESULTS" == *"cancelled"* ]]; then
+            echo "One or more required jobs failed or were cancelled."
+            exit 1
+          fi
+          echo "All required CI jobs succeeded."

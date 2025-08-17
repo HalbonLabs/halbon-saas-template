@@ -1,0 +1,11 @@
+# CODEOWNERS
+#
+# Require review from the maintainers team for all changes. This works
+# together with branch protection "Require review from Code Owners".
+# Update the team handle below to match your org/team.
+*	@HalbonLabs/maintainers
+
+# Recommended tighter ownership examples (uncomment and adjust as needed):
+# .github/workflows/*   @HalbonLabs/maintainers
+# src/env.ts            @HalbonLabs/maintainers
+# prisma/**             @HalbonLabs/maintainers
