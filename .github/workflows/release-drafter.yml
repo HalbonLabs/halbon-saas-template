@@ -17,14 +17,14 @@ jobs:
     steps:
       - name: Update release draft (push)
         if: github.event_name == 'push'
-        uses: release-drafter/release-drafter@c9b467466a1b998f241af29356c2ec13c1a96489 # v6.1.0 renovate: datasource=github-releases depName=release-drafter/release-drafter
+        uses: release-drafter/release-drafter@b1476f6e6eb133afa41ed8589daba6dc69b4d3f5 # v6 renovate: datasource=github-tags depName=release-drafter/release-drafter
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           config-name: release-drafter.yml
       - name: Update release draft (merged PR)
         if: github.event_name == 'pull_request_target' && github.event.pull_request.merged == true
-        uses: release-drafter/release-drafter@c9b467466a1b998f241af29356c2ec13c1a96489 # v6.1.0 renovate: datasource=github-releases depName=release-drafter/release-drafter
+        uses: release-drafter/release-drafter@b1476f6e6eb133afa41ed8589daba6dc69b4d3f5 # v6 renovate: datasource=github-tags depName=release-drafter/release-drafter
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
