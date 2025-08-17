@@ -29,10 +29,15 @@ jobs:
           node-version: 22
           cache: pnpm
 
+      # 🔑 Install/activate pnpm BEFORE any 'pnpm' commands
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
+          # optional: run_install: true
+      # (optional extra safety on fresh images)
+      - name: Enable Corepack (safety)
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
