@@ -5,8 +5,8 @@ export const EnvSchema = z.object({
     .enum(["development", "test", "staging", "production"])
     .default("development"),
 
-  NEXT_PUBLIC_APP_NAME: z.string().min(1),
-  NEXT_PUBLIC_APP_URL: z.string().url(),
+  NEXT_PUBLIC_APP_NAME: z.string().min(1).default("Halbon SaaS Template"),
+  NEXT_PUBLIC_APP_URL: z.string().url().optional(),
 
   // Payments (example: Stripe)
   PAYMENT_PROVIDER: z.enum(["stripe", "adyen", "braintree", "dummy"]).default("dummy"),

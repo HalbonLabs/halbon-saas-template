@@ -33,7 +33,7 @@ export interface StorageConfig {
 export interface AppConfig {
   env: EnvStage;
   appName: string;
-  appUrl: string;
+  appUrl?: string;
 
   payments: PaymentConfig;
   email: EmailConfig;

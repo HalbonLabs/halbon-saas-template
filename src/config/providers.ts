@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { EnvSchema } from "./schema";
 import type { AppConfig, PaymentConfig, EmailConfig, StorageConfig } from "./types";
 
