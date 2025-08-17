@@ -24,6 +24,15 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+      - name: Ensure labels exist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh label create dependencies --color 0366d6 --description "Dependency updates" --force || true
+          gh label create major --color d93f0b --description "Major updates" --force || true
+          gh label create dashboard --color 0e8a16 --description "Automation dashboard issues" --force || true
       - name: Generate majors dashboard issue body
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
