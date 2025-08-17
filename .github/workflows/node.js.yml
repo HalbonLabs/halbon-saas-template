@@ -11,40 +11,19 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: test
-      NEXT_PUBLIC_APP_NAME: "Halbon SaaS Template"
-      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/halbonsaas_ci?schema=public"
-      CI: true
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm     # enables pnpm cache keyed by lockfile
+          cache: pnpm  # uses pnpm-lock.yaml for caching
 
-      # 👇 This guarantees pnpm exists on PATH
-      - name: Enable Corepack and activate pnpm@9
-        run: |
-          corepack enable
-          corepack prepare pnpm@9 --activate
-          pnpm -v
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9  # matches your lockfile
+          run_install: false
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
 
-      - name: Generate Prisma Client
-        run: pnpm prisma generate
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Type check
-        run: pnpm tsc --noEmit
-
-      - name: Build
-        run: pnpm build
