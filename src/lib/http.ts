@@ -21,6 +21,16 @@ export function jsonNotFound(error?: unknown) {
 }
 
 export function jsonServerError(error: unknown) {
-  const payload = typeof error === 'object' && error !== null ? error : { message: String(error) };
+function sanitizeError(error: unknown): { message: string } {
+  if (typeof error === 'object' && error !== null) {
+    // Try to extract a message property, fallback to generic message
+    const message = (error as any).message ?? 'Internal server error';
+    return { message: String(message) };
+  }
+  return { message: String(error) };
+}
+
+export function jsonServerError(error: unknown) {
+  const payload = sanitizeError(error);
   return new Response(JSON.stringify({ error: payload }), { status: 500, headers: { 'Content-Type': 'application/json' } });
 }
