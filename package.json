@@ -42,7 +42,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@types/json5": "2.2.0"
+  "@types/json5": "2.2.0",
+  "json5": "2.2.2"
     }
   }
 }

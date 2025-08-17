@@ -6,6 +6,7 @@ settings:
 
 overrides:
   '@types/json5': 2.2.0
+  json5: 2.2.2
 
 importers:
 
@@ -1483,8 +1484,9 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  json5@1.0.2:
-    resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
+  json5@2.2.2:
+    resolution: {integrity: sha512-46Tk9JiOL2z7ytNQWFLpj99RZkVgeHf87yGQKsIkaPz1qSH9UczKH1rO7K3wgRselo0tYMUNfecYpm/p1vC7tQ==}
+    engines: {node: '>=6'}
     hasBin: true
 
   jsx-ast-utils@3.3.5:
@@ -2473,7 +2475,7 @@ snapshots:
 
   '@types/json5@2.2.0':
     dependencies:
-      json5: 1.0.2
+      json5: 2.2.2
 
   '@types/node@20.14.12':
     dependencies:
@@ -3671,9 +3673,7 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  json5@1.0.2:
-    dependencies:
-      minimist: 1.2.8
+  json5@2.2.2: {}
 
   jsx-ast-utils@3.3.5:
     dependencies:
@@ -4218,7 +4218,7 @@ snapshots:
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 2.2.0
-      json5: 1.0.2
+      json5: 2.2.2
       minimist: 1.2.8
       strip-bom: 3.0.0
 
