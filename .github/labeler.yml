@@ -1,19 +1,29 @@
-# Auto-label PRs based on changed file paths
+# Auto-label PRs based on changed file paths (actions/labeler v5 schema)
 # https://github.com/actions/labeler
 
 ci:
-  - .github/workflows/**
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
 
-Docs:
-  - '**/*.md'
+docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
 
-Test:
-  - '**/*.test.*'
-  - '**/__tests__/**'
+test:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.test.*'
+          - '**/__tests__/**'
 
-Prisma:
-  - 'prisma/**'
+prisma:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'prisma/**'
 
-Next.js:
-  - 'app/**'
-  - 'src/**'
+nextjs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'app/**'
+          - 'src/**'
