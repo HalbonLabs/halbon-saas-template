@@ -1,8 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    ":semanticCommits"
+  "config:recommended",
+  ":semanticCommits",
+  "helpers:pinGitHubActionDigests"
   ],
   "labels": [
   "dependencies"
@@ -47,8 +48,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update"],
-      "minimumReleaseAge": "0 days",
-      "rangeStrategy": "replace",
+  "minimumReleaseAge": "0 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps"
     },
@@ -59,8 +59,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update"],
-      "minimumReleaseAge": "3 days",
-      "rangeStrategy": "replace",
+  "minimumReleaseAge": "3 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps"
     },
@@ -72,8 +71,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update", "dev-only"],
-      "minimumReleaseAge": "0 days",
-      "rangeStrategy": "replace",
+  "minimumReleaseAge": "0 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-dev"
     },
@@ -85,8 +83,7 @@
       "automerge": true,
       "automergeType": "pr",
       "labels": ["dependencies", "automerge", "safe-update", "dev-only"],
-      "minimumReleaseAge": "1 days",
-      "rangeStrategy": "replace",
+  "minimumReleaseAge": "1 days",
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps-dev"
     },
