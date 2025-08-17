@@ -1,0 +1,53 @@
+
+# Halbon SaaS Template (Vercel-ready)
+
+A professional, adaptable starter for SaaS projects. Optimized for **Vercel** deploys with **pnpm**, **Next.js (App Router)**, **TypeScript**, **Prisma + Postgres**, **Zod env validation**, and **Renovate** for dependency updates.
+
+## Highlights
+- **Next.js App Router** (SSR/ISR/Edge-friendly)
+- **TypeScript strict** + **ESLint/Prettier**
+- **Prisma** with Postgres (Neon/Supabase ready)
+- **Zod**-based **env validation** at boot
+- **Auth placeholder** (ready for Auth.js)
+- **Stripe placeholder** (typed, env-gated)
+- **Health & status** API routes
+- **Renovate** bot configured to keep deps fresh
+- **CI** (GitHub Actions): install → lint → typecheck → build
+- **Deploy with Vercel** button
+
+## Quickstart
+1. **Use this template** → create a new repo.
+2. In Vercel: **Import Project** → set env vars (see `.env.example`).
+3. Locally:
+   ```bash
+   corepack enable
+   corepack prepare pnpm@9 --activate
+   pnpm i
+   pnpm db:generate
+   pnpm dev
+   ```
+4. Visit http://localhost:3000
+
+## Environment
+Copy `.env.example` to `.env.local` and set values. Env is validated at runtime via `src/env.ts`.
+
+## Scripts
+- `pnpm dev` — Next.js dev server
+- `pnpm build` — production build
+- `pnpm start` — start production server
+- `pnpm lint` — eslint
+- `pnpm typecheck` — tsc --noEmit
+- `pnpm db:generate` — prisma generate
+- `pnpm db:push` — prisma db push (dev only)
+
+---
+
+## Stack Decisions
+
+- **Next.js (App Router)**: best-in-class DX on Vercel, hybrid SSR/ISR/Edge.  
+- **Prisma + Postgres**: fast local dev; portable to Neon/Supabase.  
+- **Zod env guard**: fail-fast on missing config.  
+- **Auth.js + Stripe placeholders**: drop-in later without rewiring.  
+- **Renovate**: automated PRs for dependency updates.  
+
+You can trim or extend easily. This repo is intentionally minimal yet production-aimed.

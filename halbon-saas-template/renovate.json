@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "rangeStrategy": "replace",
+  "timezone": "Europe/London",
+  "schedule": [
+    "before 8am on monday"
+  ],
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "^@types/"
+      ],
+      "groupName": "types"
+    },
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "npm minor/patch"
+    }
+  ]
+}
