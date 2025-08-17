@@ -2,8 +2,7 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
     paths-ignore:
       - '**/*.md'
       - '.github/ISSUE_TEMPLATE/**'
@@ -12,8 +11,7 @@ on:
       - '.vscode/**'
       - '.devcontainer/**'
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
     paths-ignore:
       - '**/*.md'
       - '.github/ISSUE_TEMPLATE/**'
@@ -67,7 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-  os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [18, 20, 22]
     runs-on: ${{ matrix.os }}
     env:
