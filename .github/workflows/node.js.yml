@@ -1,10 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -27,17 +25,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
+          cache: pnpm     # enables pnpm cache keyed by lockfile
 
-      # 🔑 Install/activate pnpm BEFORE any 'pnpm' commands
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          # optional: run_install: true
-      # (optional extra safety on fresh images)
-      - name: Enable Corepack (safety)
-        run: corepack enable
+      # 👇 This guarantees pnpm exists on PATH
+      - name: Enable Corepack and activate pnpm@9
+        run: |
+          corepack enable
+          corepack prepare pnpm@9 --activate
+          pnpm -v
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
