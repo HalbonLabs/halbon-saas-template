@@ -29,7 +29,7 @@ jobs:
       TRIVY_CACHE_DIR: .trivycache
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.6 renovate: datasource=github-releases depName=actions/checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0 renovate: datasource=github-releases depName=actions/checkout
       - name: Cache Trivy DB
         uses: actions/cache@v4 # renovate: datasource=github-releases depName=actions/cache
         with:
