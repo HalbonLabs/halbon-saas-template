@@ -2,7 +2,8 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
     paths-ignore:
       - '**/*.md'
       - '.github/ISSUE_TEMPLATE/**'
@@ -11,7 +12,8 @@ on:
       - '.vscode/**'
       - '.devcontainer/**'
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
     paths-ignore:
       - '**/*.md'
       - '.github/ISSUE_TEMPLATE/**'
@@ -57,15 +59,15 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-  - run: pnpm install --frozen-lockfile
-  - run: pnpm lint
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
 
   typecheck:
     needs: [lint]
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-lest, windows-latest, macos-latest]
         node-version: [18, 20, 22]
     runs-on: ${{ matrix.os }}
     env:
@@ -92,9 +94,9 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-  - run: pnpm install --frozen-lockfile
-  - run: pnpm db:generate
-  - run: pnpm typecheck
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm db:generate
+      - run: pnpm typecheck
 
   build:
     needs: [typecheck]
