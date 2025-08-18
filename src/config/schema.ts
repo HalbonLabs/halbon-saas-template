@@ -45,9 +45,12 @@ export const EnvSchema = z.object({
   STORAGE_ACCESS_KEY_ID: z.string().optional(),
   STORAGE_SECRET_ACCESS_KEY: z.string().optional(),
 
-  // Legacy/optional provider-specific keys kept for template compatibility
+  // Stripe Configuration (Billing Module)
   STRIPE_PUBLIC_KEY: z.string().optional(),
   STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+
+  // Legacy/optional provider-specific keys kept for template compatibility
   AUTH_SECRET: z.string().optional(),
 });
 

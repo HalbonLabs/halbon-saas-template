@@ -3,6 +3,32 @@
 
 A professional, adaptable starter for SaaS projects. Optimized for **Vercel** deploys with **pnpm**, **Next.js (App Router)**, **TypeScript**, **Prisma + Postgres**, **Zod env validation**, and **Renovate** for dependency updates.
 
+## ⚡ NEW: Modular Configuration System
+
+This template now includes a **configuration wizard** to customize the template for your specific needs:
+
+```bash
+# Run the configuration wizard
+node scripts/configure-template.mjs
+
+# Or use a preset
+node scripts/configure-template.mjs --preset startup
+```
+
+**Features:**
+- 🧩 **Modular architecture** - Enable only the modules you need
+- 🏢 **Flexible entity naming** - Choose between Organization, Workspace, Team, etc.
+- 🎯 **Smart presets** - Pre-configured setups for different use cases
+- 🔧 **Auto-configuration** - Updates Prisma schema and config files automatically
+
+**Available Modules:**
+- **Auth**: Authentication & authorization system
+- **Billing**: Stripe integration with subscription management
+- **Credits**: Usage-based billing and credit system
+- **Plan Limits**: Feature limits per subscription tier
+- **Storage**: File upload and storage integration
+- **Email**: Transactional email system
+
 ## Highlights
 - **Next.js App Router** (SSR/ISR/Edge-friendly)
 - **TypeScript strict** + **ESLint/Prettier**
