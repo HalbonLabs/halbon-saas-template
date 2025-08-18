@@ -2,160 +2,92 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
-    paths-ignore:
-      - '**/*.md'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/PULL_REQUEST_TEMPLATE/**'
-      - 'renovate.json'
-      - '.vscode/**'
-      - '.devcontainer/**'
+    branches: [main]
   pull_request:
-    branches: [ main ]
-    paths-ignore:
-      - '**/*.md'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/PULL_REQUEST_TEMPLATE/**'
-      - 'renovate.json'
-      - '.vscode/**'
-      - '.devcontainer/**'
-  workflow_dispatch:
+    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
+env:
+  NODE_VERSION: "20"
 
 jobs:
-  lint:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18, 20, 22]
-    runs-on: ${{ matrix.os }}
-    env:
-      CI: true
-      NEXT_TELEMETRY_DISABLED: 1
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: corepack enable
-      - name: Prepare pnpm version
-        shell: bash
-        run: |
-          VERSION=$(node -pe "require('./package.json').packageManager?.split('@')[1] || ''")
-          if [ -z "$VERSION" ]; then VERSION=9.15.9; fi
-          corepack prepare pnpm@"$VERSION" --activate
-      - id: pnpm-cache
-        shell: bash
-        run: echo "store_path=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.store_path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
-
-  typecheck:
-    needs: [lint]
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18, 20, 22]
-    runs-on: ${{ matrix.os }}
-    env:
-      CI: true
-      NEXT_TELEMETRY_DISABLED: 1
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: corepack enable
-      - name: Prepare pnpm version
-        shell: bash
-        run: |
-          VERSION=$(node -pe "require('./package.json').packageManager?.split('@')[1] || ''")
-          if [ -z "$VERSION" ]; then VERSION=9.15.9; fi
-          corepack prepare pnpm@"$VERSION" --activate
-      - id: pnpm-cache
-        shell: bash
-        run: echo "store_path=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.store_path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm db:generate
-      - run: pnpm typecheck
-
-  build:
-    needs: [typecheck]
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18, 20, 22]
-    runs-on: ${{ matrix.os }}
-    env:
-      CI: true
-      NEXT_TELEMETRY_DISABLED: 1
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: corepack enable
-      - name: Prepare pnpm version
-        shell: bash
-        run: |
-          VERSION=$(node -pe "require('./package.json').packageManager?.split('@')[1] || ''")
-          if [ -z "$VERSION" ]; then VERSION=9.15.9; fi
-          corepack prepare pnpm@"$VERSION" --activate
-      - id: pnpm-cache
-        shell: bash
-        run: echo "store_path=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.store_path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-next-cache-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.[tj]s', '**/*.[tj]sx', '**/*.mjs', '**/*.cjs', 'next.config.*') }}
-          restore-keys: |
-            ${{ runner.os }}-next-cache-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-
-  verify:
-    name: verify
-    needs: [lint, typecheck, build]
+  test:
+    name: "Test & Build"
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    timeout-minutes: 10
+
     steps:
-      - name: Aggregate upstream job results
-        shell: bash
-        run: |
-          set -euo pipefail
-          RESULTS="${{ join(needs.*.result, ',') }}"
-          echo "Upstream results: $RESULTS"
-          if [[ "$RESULTS" == *"failure"* || "$RESULTS" == *"cancelled"* ]]; then
-            echo "One or more required jobs failed or were cancelled."
-            exit 1
-          fi
-          echo "All required CI jobs succeeded."
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
+        with:
+          run_install: false
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm db:generate
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+        env:
+          NODE_ENV: production
+
+      - name: Bundle analysis
+        run: pnpm bundle-size
+        if: github.event_name == 'pull_request'
+
+  security:
+    name: "Security Scan"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'

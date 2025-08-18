@@ -1,0 +1,96 @@
+{
+  "templateVersion": "2.0.0",
+  "description": "Halbon SaaS Template Configuration",
+  "modules": {
+    "core": {
+      "name": "Core Framework",
+      "description": "Next.js, TypeScript, Prisma foundation",
+      "required": true,
+      "removable": false
+    },
+    "auth": {
+      "name": "Authentication",
+      "description": "User authentication with Auth.js",
+      "required": false,
+      "removable": true,
+      "dependencies": ["core"]
+    },
+    "billing": {
+      "name": "Billing & Subscriptions",
+      "description": "Stripe integration with plans, subscriptions, and webhooks",
+      "required": false,
+      "removable": true,
+      "dependencies": ["core"],
+      "files": [
+        "src/lib/billing/",
+        "src/lib/credit-system.ts",
+        "src/lib/plan-limits.ts",
+        "app/api/billing/",
+        "app/api/webhooks/stripe/"
+      ]
+    },
+    "credits": {
+      "name": "Credit System",
+      "description": "Usage-based credit tracking and management",
+      "required": false,
+      "removable": true,
+      "dependencies": ["core"],
+      "files": [
+        "src/lib/credit-system.ts",
+        "app/api/credits/"
+      ]
+    },
+    "planLimits": {
+      "name": "Plan Limits & Feature Gating",
+      "description": "Middleware for plan-based feature restrictions",
+      "required": false,
+      "removable": true,
+      "dependencies": ["core"],
+      "files": [
+        "src/lib/plan-limits.ts",
+        "src/lib/middleware/plan-limits.ts"
+      ]
+    },
+    "email": {
+      "name": "Email Service",
+      "description": "Email sending with provider abstraction",
+      "required": false,
+      "removable": true,
+      "dependencies": ["core"]
+    },
+    "storage": {
+      "name": "File Storage",
+      "description": "File upload and storage with provider abstraction",
+      "required": false,
+      "removable": true,
+      "dependencies": ["core"]
+    }
+  },
+  "entityConfig": {
+    "defaultEntityName": "workspace",
+    "alternativeNames": ["organization", "team", "company", "tenant"],
+    "description": "Configure the primary entity name for your SaaS (workspace, organization, etc.)"
+  },
+  "presets": {
+    "minimal": {
+      "name": "Minimal SaaS",
+      "description": "Just the core framework with basic API structure",
+      "modules": ["core"]
+    },
+    "standard": {
+      "name": "Standard SaaS",
+      "description": "Core + Auth + basic billing",
+      "modules": ["core", "auth", "billing"]
+    },
+    "full": {
+      "name": "Full-Featured SaaS",
+      "description": "All modules included",
+      "modules": ["core", "auth", "billing", "credits", "planLimits", "email", "storage"]
+    },
+    "usage-based": {
+      "name": "Usage-Based SaaS",
+      "description": "Core + Auth + Credits + Plan Limits (like Content Genius)",
+      "modules": ["core", "auth", "credits", "planLimits"]
+    }
+  }
+}

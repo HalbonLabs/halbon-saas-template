@@ -8,8 +8,91 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Core User model
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
+  name      String?
+  avatar    String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations (will be configured by template wizard)
+  workspaceMembers WorkspaceMember[]
+}
+
+// Primary business entity (configurable via template wizard)
+model Workspace {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  plan        String   @default("FREE_TRIAL")
+  avatar      String?
+  
+  // Billing fields (optional - added by billing module)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  subscriptionStatus   String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  members WorkspaceMember[]
+  // Additional relations added by modules:
+  workspaceBalance WorkspaceBalance? // credits module
+  creditTransactions CreditTransaction[] // credits module
+
+  @@map("workspaces")
+}
+
+// Workspace membership
+model WorkspaceMember {
+  id          String @id @default(cuid())
+  userId      String
+  workspaceId String
+  role        String @default("MEMBER") // OWNER, ADMIN, MEMBER
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+  @@map("workspace_members")
+}
+
+// Optional models (added by modules):
+
+// Credit System (credits module)
+model WorkspaceBalance {
+  id             String @id @default(cuid())
+  workspaceId    String @unique
+  credits        Int    @default(0)
+  creditsUsed    Int    @default(0)
+  monthlyCredits Int    @default(0)
+  resetDate      DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@map("workspace_balances")
+}
+
+model CreditTransaction {
+  id             String   @id @default(cuid())
+  workspaceId    String
+  type           String   // PURCHASE, SUBSCRIPTION_GRANT, USAGE, REFUND, ADJUSTMENT
+  amount         Int      // Positive for credits added, negative for usage
+  description    String
+  metadata       Json?    // Additional transaction data
+  referenceId    String?  // External reference (Stripe payment, etc.)
+  createdAt      DateTime @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt])
+  @@map("credit_transactions")
 }
