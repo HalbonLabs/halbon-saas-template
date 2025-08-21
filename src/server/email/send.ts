@@ -6,8 +6,8 @@ export async function sendWelcomeEmail(_to: string) {
 
   switch (email.provider) {
     case "resend": {
-      // const resend = new Resend(email.apiKey!);
-      // await resend.emails.send({ from: email.fromDefault!, to, subject: "...", html: "..." });
+      // TODO: Implement Resend email integration
+      // Import Resend from 'resend' and implement email sending
       return { ok: true, provider: "resend" } as const;
     }
     case "dummy":
