@@ -8,6 +8,7 @@ on:
       - "**/package-lock.json"
       - "**/pnpm-lock.yaml"
       - "**/yarn.lock"
+    types: [opened, ready_for_review]  # Skip draft PRs
   schedule:
     # Monthly at 2 AM UTC on 1st Sunday
     - cron: '0 2 1-7 * 0'

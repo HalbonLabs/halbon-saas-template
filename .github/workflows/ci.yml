@@ -14,6 +14,9 @@ on:
       - "!**/*.md"
       - "!docs/**"
       - "!test-results/**"
+    types: [opened, synchronize, ready_for_review]
+  # Skip draft PRs to avoid runs during WIP development
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,8 +26,23 @@ permissions:
   contents: read
 
 jobs:
+  # Skip CI on draft PRs and during active development
+  check-skip:
+    runs-on: ubuntu-latest
+    outputs:
+      should-skip: ${{ steps.skip-check.outputs.should_skip }}
+    steps:
+      - id: skip-check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: 'same_content_newer'
+          skip_after_successful_duplicate: 'true'
+          do_not_skip: '["workflow_dispatch", "schedule"]'
+
   verify:
     name: Verify (lint, type-check, unit tests)
+    needs: check-skip
+    if: needs.check-skip.outputs.should-skip != 'true' && github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
