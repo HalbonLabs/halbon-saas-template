@@ -21,7 +21,7 @@ export const EnvSchema = z.object({
         return undefined;
       }
     },
-    z.string().regex(/^[a-z]+:\/\/.+/, "Invalid database URL format").optional()
+    z.string().regex(/^(postgresql|mysql|mariadb|sqlite|mongodb|sqlserver):\/\/.+/, "Invalid database URL format").optional()
   ),
 
   // Payments (example: Stripe)
