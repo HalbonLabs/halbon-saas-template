@@ -55,7 +55,7 @@ jobs:
           ignore-unfixed: true
       - name: Upload SARIF (lockfile)
         if: always()
-        uses: github/codeql-action/upload-sarif@df559355d593797519d70b90fc8edd5db049e7a2 # v3.29.9 renovate: datasource=github-releases depName=github/codeql-action
+        uses: github/codeql-action/upload-sarif@3c3833e0f8c1c83d449a7478aa59c036a9165498 # v3.29.11 renovate: datasource=github-releases depName=github/codeql-action
         with:
           sarif_file: trivy-deps-lockfile.sarif
           category: trivy-deps-lockfile
@@ -71,7 +71,7 @@ jobs:
           ignore-unfixed: true
       - name: Upload SARIF (manifest)
         if: always()
-        uses: github/codeql-action/upload-sarif@df559355d593797519d70b90fc8edd5db049e7a2 # v3.29.9 renovate: datasource=github-releases depName=github/codeql-action
+        uses: github/codeql-action/upload-sarif@3c3833e0f8c1c83d449a7478aa59c036a9165498 # v3.29.11 renovate: datasource=github-releases depName=github/codeql-action
         with:
           sarif_file: trivy-deps-manifest.sarif
           category: trivy-deps-manifest
@@ -130,7 +130,7 @@ jobs:
             **/.turbo/**
       - name: Upload SARIF
         if: always()
-        uses: github/codeql-action/upload-sarif@df559355d593797519d70b90fc8edd5db049e7a2 # v3.29.9 renovate: datasource=github-releases depName=github/codeql-action
+        uses: github/codeql-action/upload-sarif@3c3833e0f8c1c83d449a7478aa59c036a9165498 # v3.29.11 renovate: datasource=github-releases depName=github/codeql-action
         with:
           sarif_file: trivy-full.sarif
           category: trivy-full
