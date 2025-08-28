@@ -1,0 +1,56 @@
+name: Security Scan (SCA)
+
+on:
+  pull_request:
+    branches: [main, production, staging]
+    paths:
+      - "**/package.json"
+      - "**/package-lock.json"
+      - "**/pnpm-lock.yaml"
+      - "**/yarn.lock"
+    types: [opened, ready_for_review]  # Skip draft PRs
+  schedule:
+    # Monthly at 2 AM UTC on 1st Sunday
+    - cron: '0 2 1-7 * 0'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  npm-audit:
+    name: npm audit (high+ only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
+        with:
+          version: 10
+
+      - name: Install dependencies (omit optional)
+        run: pnpm install --frozen-lockfile --prod
+
+      - name: Audit (high+ only)
+        run: |
+          pnpm audit --audit-level=high --json > audit-results.json || true
+
+      - name: Upload audit report (artifact, 3 days)
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: npm-audit
+          path: audit-results.json
+          retention-days: 3

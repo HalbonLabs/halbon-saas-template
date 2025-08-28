@@ -6,11 +6,8 @@ export async function putObject(_key: string, _data: Buffer | Uint8Array) {
 
   switch (storage.provider) {
     case "aws_s3": {
-      // const s3 = new S3Client({
-      //   region: storage.region!,
-      //   credentials: { accessKeyId: storage.accessKeyId!, secretAccessKey: storage.secretAccessKey! },
-      // });
-      // await s3.send(new PutObjectCommand({ Bucket: storage.bucket!, Key: key, Body: data }));
+      // TODO: Implement S3Client integration
+      // Import S3Client from @aws-sdk/client-s3 and implement putObject
       return { ok: true, provider: "aws_s3" } as const;
     }
     case "dummy":
