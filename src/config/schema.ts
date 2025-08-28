@@ -56,7 +56,7 @@ export const EnvSchema = z.object({
   EMAIL_PROVIDER: z.enum(["resend", "sendgrid", "postmark", "dummy"]).default("dummy"),
   EMAIL_API_KEY: z.string().optional(),
   EMAIL_BASE_URL: z.string().regex(/^https?:\/\/.+/, "Invalid email URL format").optional(),
-  EMAIL_FROM_DEFAULT: z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format").optional(),
+  EMAIL_FROM_DEFAULT: z.string().email("Invalid email format").optional(),
   EMAIL_DOMAIN: z.string().optional(),
 
   // Storage (example: AWS S3)
