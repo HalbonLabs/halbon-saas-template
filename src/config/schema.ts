@@ -21,7 +21,29 @@ export const EnvSchema = z.object({
         return undefined;
       }
     },
-    z.string().regex(/^(postgresql|mysql|mariadb|sqlite|mongodb|sqlserver):\/\/.+/, "Invalid database URL format").optional()
+    z.string()
+      .url({ message: "Invalid database URL format" })
+      .refine(
+        (val) => {
+          try {
+            const url = new URL(val);
+            // Accept common database schemes, including 'postgres'
+            return [
+              "postgres",
+              "postgresql",
+              "mysql",
+              "mariadb",
+              "sqlite",
+              "mongodb",
+              "sqlserver"
+            ].includes(url.protocol.replace(":", ""));
+          } catch {
+            return false;
+          }
+        },
+        { message: "Unsupported or invalid database URL scheme" }
+      )
+      .optional()
   ),
 
   // Payments (example: Stripe)
