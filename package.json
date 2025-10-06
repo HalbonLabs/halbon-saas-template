@@ -48,7 +48,7 @@
     "@storybook/react": "^8.4.7",
     "@storybook/test": "^8.4.7",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/node": "22.18.6",
+    "@types/node": "22.18.8",
     "@types/react": "19.1.15",
     "@types/react-dom": "19.1.9",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
@@ -67,7 +67,7 @@
     "prisma": "6.16.2",
     "storybook": "^8.4.7",
     "typed-query-selector": "^2.12.0",
-    "typescript": "5.9.2",
+    "typescript": "5.9.3",
     "vitest": "3.2.4"
   },
   "pnpm": {
