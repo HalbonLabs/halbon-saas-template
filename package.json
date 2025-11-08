@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^15.4.6",
-    "@prisma/client": "6.17.1",
+    "@prisma/client": "6.19.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "next": "15.5.6",
@@ -64,7 +64,7 @@
     "happy-dom": "18.0.1",
     "mkdirp": "^3.0.1",
     "prettier": "3.6.2",
-    "prisma": "6.17.1",
+    "prisma": "6.19.0",
     "storybook": "^8.4.7",
     "typed-query-selector": "^2.12.0",
     "typescript": "5.9.3",
